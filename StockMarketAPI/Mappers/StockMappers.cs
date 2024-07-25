@@ -7,7 +7,7 @@ namespace StockMarketAPI.Mappers
 	{
 		public static StockDto ToStockDto(this Stock stockModel)
 		{
-			return new StockDto()
+			return new StockDto
 			{
 				Id = stockModel.Id,
 				Symbol = stockModel.Symbol,
@@ -16,6 +16,19 @@ namespace StockMarketAPI.Mappers
 				LastDiv = stockModel.LastDiv,
 				Industry = stockModel.Industry,
 				MarketCap = stockModel.MarketCap
+			};
+		}
+
+		public static Stock ToStockFromCreateDTO(this CreateStockRequestDto stockDto)
+		{
+			return new Stock
+			{
+				Symbol = stockDto.Symbol,
+				CompanyName = stockDto.CompanyName,
+				Purchase = stockDto.Purchase,
+				LastDiv = stockDto.LastDiv,
+				Industry= stockDto.Industry,
+				MarketCap = stockDto.MarketCap
 			};
 		}
 	}
