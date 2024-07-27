@@ -24,5 +24,18 @@ namespace StockMarketAPI.Controllers
 
 			return Ok(commentDto);
 		}
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetById([FromRoute] int id)
+		{
+			var comment = await _commentRepo.GetByIdAsync(id);
+
+			if (comment == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(comment.ToCommentDto());
+		}
     }
 }
