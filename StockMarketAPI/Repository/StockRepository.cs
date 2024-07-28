@@ -41,14 +41,22 @@ namespace StockMarketAPI.Repository
 		{
 			var stocks = _context.Stocks.Include(c => c.Comments).AsQueryable();
 
-			if (!string.IsNullOrEmpty(query.CompanyName))
+			if (!string.IsNullOrWhiteSpace(query.CompanyName))
 			{
 				stocks = stocks.Where(s => s.CompanyName.Contains(query.CompanyName));
 			}
 
-			if (!string.IsNullOrEmpty(query.Symbol))
+			if (!string.IsNullOrWhiteSpace(query.Symbol))
 			{
 				stocks = stocks.Where(s => s.Symbol.Contains(query.Symbol));
+			}
+			
+			if (!string.IsNullOrWhiteSpace(query.SortBy))
+			{
+				if (query.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+				{
+					stocks = query.IsDescending ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+				}
 			}
 
 			return await stocks.ToListAsync();
