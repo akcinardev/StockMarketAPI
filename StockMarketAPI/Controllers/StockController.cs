@@ -4,6 +4,7 @@ using StockMarketAPI.Data;
 using StockMarketAPI.DTOs.Stock;
 using StockMarketAPI.Interfaces;
 using StockMarketAPI.Mappers;
+using StockMarketAPI.Helpers;
 
 namespace StockMarketAPI.Controllers
 {
@@ -21,13 +22,13 @@ namespace StockMarketAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			var stocks = await _stockRepo.GetAllAsync();
+			var stocks = await _stockRepo.GetAllAsync(query);
             var stockDto = stocks.Select(s => s.ToStockDto());
             return Ok(stocks);
         }
