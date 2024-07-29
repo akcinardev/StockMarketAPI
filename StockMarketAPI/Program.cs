@@ -6,6 +6,7 @@ using StockMarketAPI.Data;
 using StockMarketAPI.Interfaces;
 using StockMarketAPI.Models;
 using StockMarketAPI.Repository;
+using StockMarketAPI.Service;
 
 namespace StockMarketAPI
 {
@@ -62,10 +63,9 @@ namespace StockMarketAPI
 				};
 			});
 
-
-
 			builder.Services.AddScoped<IStockRepository, StockRepository>();
 			builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+			builder.Services.AddScoped<ITokenService, TokenService>();
 
 			var app = builder.Build();
 
