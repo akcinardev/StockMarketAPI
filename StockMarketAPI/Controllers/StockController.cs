@@ -5,6 +5,7 @@ using StockMarketAPI.DTOs.Stock;
 using StockMarketAPI.Interfaces;
 using StockMarketAPI.Mappers;
 using StockMarketAPI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StockMarketAPI.Controllers
 {
@@ -22,6 +23,7 @@ namespace StockMarketAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
 			if (!ModelState.IsValid)
