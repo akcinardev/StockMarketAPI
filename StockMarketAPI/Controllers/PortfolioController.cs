@@ -72,5 +72,28 @@ namespace StockMarketAPI.Controllers
 				return Created();
 			}
 		}
+
+		[HttpDelete]
+		[Authorize]
+		public async Task<IActionResult> DeleteFromPortfolio(string symbol)
+		{
+			var username = User.GetUsername();
+			var appUser = await _userManager.FindByNameAsync(username);
+
+			var userPortfolio = await _portfolioRepo.GetUserPortfolio(appUser);
+
+			var filteredStock = userPortfolio.Where(s => s.Symbol.ToLower() == symbol.ToLower()).ToList();
+
+			if (filteredStock.Count() == 1)
+			{
+				await _portfolioRepo.DeleteFromPortfolio(appUser, symbol);
+			}
+			else
+			{
+				return BadRequest("Stock is not in your portfolio");
+			}
+
+			return Ok();
+		}
     }
 }
